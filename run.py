@@ -42,6 +42,8 @@ for validator in validators:
 
 #set up epoch list - each list contains the most up-to-date information for that epoch
 
+shards = [Shard]
+
 epoch_states = a = [None] * (AMAX + SIMULATION_EPOCHS)
 for x in range(AMAX):
     epoch_states[x] = fuzzer.fuzzy_string()
@@ -50,6 +52,8 @@ for i in range(SIMULATION_EPOCHS):
     random.seed(hash(epoch_states[i]))
     random.shuffle(validators)
     beacon.request_proposals(random)
+    for shard in shards:
+        shard.request_block(random)
     epoch_states[i+AMAX] = (vdf_calc(beacon.revealed_entropy))
     beacon.reset_proposals()
     for validator in validators:
