@@ -7,7 +7,7 @@ import random
 SIMULATION_EPOCHS = 20
 AMAX = 10
 EPOCH = 0;
->>>>>>> 5dfe8c55b0eac58d1bd2d2c99a876e402dbfdfb2
+
 # create 2048 bit RSA modulus using a secure ceremony
 key = RSA.generate(2048)
 N = key.n # N is used for VDF creation
@@ -20,7 +20,8 @@ def randao_mix(beacon):
 def vdf_calc(entropy):
     #The VDF should be calculated as Y = X**(2**T) % N
     #For the simulation - we'll use the VDF_DELAY constant to specify how many epochs this calculation takes
-    return (entropy)
+    random.seed(entropy) #seed random number with entropy for the simulation
+    return random.random()
 
 # set up beacon and validators
 

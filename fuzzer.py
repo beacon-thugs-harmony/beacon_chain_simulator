@@ -12,10 +12,10 @@ def fuzzy_string():
     return "".join(random.choice(string.ascii_lowercase + string.digits) for _ in range(32));
 
 def fuzzy_number():
-    return random.random();
+    return random.random()
 
 def fuzzy_number_function():
-    return random.random
+    return random.random()
 
 def honest_available_unbiased():
     return lambda:1
