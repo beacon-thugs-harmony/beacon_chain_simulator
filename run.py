@@ -12,18 +12,27 @@ EPOCH = 0;
 key = RSA.generate(2048)
 N = key.n # N is used for VDF creation
 
-print(key.n)
-print(key.n.bit_length())
+print("The RSA Random N is:\n" + str(key.n) +"\n")
+
+def next_power_of_2(x):
+    return x if x == 1 else next_power_of_2((x+1) // 2) * 2
+
+def extend_to_power_of_2(bytez):
+    return bytez + b'\x00' * (next_power_of_2(len(bytez)) - len(bytez))
 
 def vdf_calc(entropy):
-    #The VDF should be calculated as Y = X**(2**T) % N
-    #For the simulation - we'll use the VDF_DELAY constant to specify how many epochs this calculation takes
-    random.seed(entropy) #seed random number with entropy for the simulation
-    return random.random()
+    #The VDF should be calculated as Y = X**(2**T) % N, here we use T=1 to reduce simulation runtime
+    #The AMAX constant specifies how many epochs this calculation takes on ASIC chips
+
+    bytes_entropy=bytes(entropy, 'utf-8')
+    byte_exponent = (bytes(extend_to_power_of_2(bytearray(bytes_entropy)))) #X**2**T
+    modulus = int.from_bytes(byte_exponent, 'big', signed=False) % N
+
+    bytes_entropy = (bytes(str(modulus), "ascii"))
+    return str(bytes_entropy, 'utf-8')
 
 # set up beacon and validators
 
-print(fuzzer.fuzzy_number_function()())
 beacon = fuzzer.fuzzy_beacon()
 validators = fuzzer.create_validators(1000)
 
