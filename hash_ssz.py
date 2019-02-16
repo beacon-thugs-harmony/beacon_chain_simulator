@@ -1,5 +1,5 @@
 from hashlib import blake2b
-from beacon_chain.state import crystallized_state as cs
+#from beacon_chain.state import crystallized_state as cs
 
 def hash(x):
     return blake2b(x).digest()[:32]
@@ -28,7 +28,7 @@ def merkle_hash(lst):
     for i in range(len(chunkz)//2 - 1, 0, -1):
         chunkz[i] = hash(chunkz[i*2] + chunkz[i*2+1])
     return hash(chunkz[1] + datalen)
-
+'''
 def hash_ssz(val, typ=None):
     if typ is None and hasattr(val, 'fields'):
         typ = type(val)
@@ -60,7 +60,7 @@ def hash_ssz(val, typ=None):
             )
             return hash(sub)
     raise Exception("Cannot serialize", val, typ)
-
+'''
 def hash_validator_record(val):
     return hash(val.pubkey.to_bytes(32, 'big') + val.withdrawal_shard.to_bytes(2, 'big') + \
                 val.withdrawal_address + val.randao_commitment + val.balance.to_bytes(16, 'big') + \
