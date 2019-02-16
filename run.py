@@ -23,7 +23,6 @@ def vdf_calc(entropy):
 
 # set up beacon and validators
 
-print(fuzzer.fuzzy_number_function()())
 beacon = fuzzer.fuzzy_beacon()
 validators = fuzzer.create_validators(1000)
 
@@ -46,3 +45,5 @@ for i in range(SIMULATION_EPOCHS):
     for validator in validators:
         beacon.request_proposal_hash(validator)
 
+for i in epoch_states:
+    print(i)
