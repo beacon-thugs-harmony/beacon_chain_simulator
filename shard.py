@@ -1,3 +1,8 @@
 
+class Shard(object):
 
-class Shard:
+    def __init__(self):
+
+    def request_block(self):
+        #STUB
+        return

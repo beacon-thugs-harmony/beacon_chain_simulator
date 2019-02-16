@@ -40,3 +40,7 @@ class Beacon(object):
 
     def request_proposal_hash(self, validator):
         self.proposal_hashes[validator.address] = (validator.get_entropy_hash())
+
+    def assign_validators(self,shard, validators):
+        #STUB
+        return
