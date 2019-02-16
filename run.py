@@ -6,7 +6,8 @@ import random
 #constants
 SIMULATION_EPOCHS = 3
 AMAX = 10
-EPOCH = 0;
+EPOCH = 0
+NSHARDS = 4
 
 # create 2048 bit RSA modulus using a secure ceremony
 key = RSA.generate(2048)
@@ -41,7 +42,7 @@ for validator in validators:
 
 #set up epoch list - each list contains the most up-to-date information for that epoch
 
-shards = [Shard]
+shards = [Shard]*NSHARDS
 
 epoch_states = a = [None] * (AMAX + SIMULATION_EPOCHS)
 for x in range(AMAX):
@@ -49,14 +50,17 @@ for x in range(AMAX):
 
 for i in range(SIMULATION_EPOCHS):
     random.seed(hash(epoch_states[i]))
-    random.shuffle(validators)
+    random.shuffle(validators)  # shuffle proposals for entropy
     beacon.request_proposals(random)
-    for shard in shards:
-        shard.request_block(random)
     epoch_states[i+AMAX] = (vdf_calc(beacon.revealed_entropy))
-    beacon.reset_proposals()
+
     for validator in validators:
         beacon.request_proposal_hash(validator)
+
+    for shard in shards:
+        random.shuffle(validators)  # validator shard assignment
+        beacon.assign_validators(shard,validators)
+        shard.request_block() # print validator x is proposing block at slot n
 
 for i in epoch_states:
     print(i)

@@ -21,6 +21,7 @@ class Beacon(object):
         return True
 
     def request_proposals(self, random):
+
         # ask random validator to propose a block
         keys = list(self.proposal_hashes.keys())
         if(len(keys) == 0):
@@ -35,8 +36,7 @@ class Beacon(object):
                 else:
                     pass #will include punishment here
 
-    def reset_proposals(self):
-        self.proposers = []
+        self.proposal_hashes = ()
 
     def request_proposal_hash(self, validator):
         self.proposal_hashes[validator.address] = (validator.get_entropy_hash())
