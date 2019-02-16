@@ -43,4 +43,5 @@ class Beacon(object):
 
     def assign_validators(self,shard, validators):
         #STUB
+        shard.validators = validators[0:255]
         return
