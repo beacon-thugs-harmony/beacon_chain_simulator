@@ -1,6 +1,8 @@
 from hashlib import blake2b
 #from beacon_chain.state import crystallized_state as cs
 
+
+#reference implementations for hashing/vdf/merkle_hash
 def hash(x):
     return blake2b(x).digest()[:32]
 
