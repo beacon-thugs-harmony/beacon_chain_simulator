@@ -4,7 +4,7 @@ from Crypto.PublicKey import RSA
 import random
 
 #constants
-SIMULATION_EPOCHS = 20
+SIMULATION_EPOCHS = 3
 AMAX = 10
 EPOCH = 0;
 
@@ -24,12 +24,11 @@ def vdf_calc(entropy):
     #The VDF should be calculated as Y = X**(2**T) % N, here we use T=1 to reduce simulation runtime
     #The AMAX constant specifies how many epochs this calculation takes on ASIC chips
 
-    bytes_entropy=bytes(entropy, 'utf-8')
-    byte_exponent = (bytes(extend_to_power_of_2(bytearray(bytes_entropy)))) #X**2**T
-    modulus = int.from_bytes(byte_exponent, 'big', signed=False) % N
+    bytes_entropy=bytes(entropy, "ascii")
+    bytes_entropy = (bytes(extend_to_power_of_2(bytearray(bytes_entropy)))) #X**2**T
+    bytes_entropy = ((int.from_bytes(bytes_entropy, 'big', signed=False) % N).to_bytes(32, byteorder='big')) #take the modulus by N
 
-    bytes_entropy = (bytes(str(modulus), "ascii"))
-    return str(bytes_entropy, 'utf-8')
+    return str(bytes_entropy, "ascii")
 
 # set up beacon and validators
 
@@ -50,6 +49,7 @@ for i in range(SIMULATION_EPOCHS):
     random.seed(hash(epoch_states[i]))
     random.shuffle(validators)
     beacon.request_proposals(random)
+    print(beacon.revealed_entropy)
     epoch_states[i+AMAX] = (vdf_calc(beacon.revealed_entropy))
     beacon.reset_proposals()
     for validator in validators:
