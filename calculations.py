@@ -1,3 +1,9 @@
+from hashlib import blake2b
+
+
+def hash(x):
+    return blake2b(x).digest()[:32]
+
 def lmd_ghost(store, start):
     validators = start.state.validator_registry
     active_validators = [validators[i] for i in
