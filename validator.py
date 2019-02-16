@@ -10,7 +10,7 @@ class Validator:
         self.current_entropy = fuzzer.fuzzy_string();
 
     def propose(self):
-        return self.availability > .5
+        return self.availability() > .5
 
     def get_entropy(self):
         return self.current_entropy

@@ -14,3 +14,8 @@ class ValidatorPool:
             if(validator.address != validator_address):
                 filtered_validators.append(validator)
         self.validators = filtered_validators
+
+    def get_validator(self, address):
+        for i in self.validators:
+            if(i.address == address):
+                return i

@@ -40,10 +40,9 @@ for x in range(AMAX):
 for i in range(SIMULATION_EPOCHS):
     random.seed(hash(epoch_states[i]))
     random.shuffle(validators)
-    #In each epoch, first do the randao mixing, and then calculate the vdf
-    for j in beacon.proposers:
-        beacon.request_proposal(validators[j])
+    beacon.request_proposals(random)
     epoch_states[i+AMAX] = (vdf_calc(beacon.revealed_entropy))
     beacon.reset_proposals()
-    for j in range(128):
-        beacon.request_proposal_hash(validators[j])
+    for validator in validators:
+        beacon.request_proposal_hash(validator)
+
