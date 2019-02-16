@@ -2,6 +2,7 @@ import fuzzer
 import Crypto
 from Crypto.PublicKey import RSA
 import random
+import shard
 
 #constants
 SIMULATION_EPOCHS = 3
@@ -42,7 +43,9 @@ for validator in validators:
 
 #set up epoch list - each list contains the most up-to-date information for that epoch
 
-shards = [Shard]*NSHARDS
+shards = [None]*NSHARDS
+for i in range(len(shards)):
+    shards[i] = shard.Shard()
 
 epoch_states = a = [None] * (AMAX + SIMULATION_EPOCHS)
 for x in range(AMAX):
@@ -57,10 +60,10 @@ for i in range(SIMULATION_EPOCHS):
     for validator in validators:
         beacon.request_proposal_hash(validator)
 
-    for shard in shards:
+    for unique_shard in shards:
         random.shuffle(validators)  # validator shard assignment
-        beacon.assign_validators(shard,validators)
-        shard.request_block() # print validator x is proposing block at slot n
+        beacon.assign_validators(unique_shard,validators)
+        unique_shard.request_block() # print validator x is proposing block at slot n
 
 for i in epoch_states:
     print(i)

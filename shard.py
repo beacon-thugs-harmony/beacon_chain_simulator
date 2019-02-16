@@ -5,7 +5,6 @@ class Shard(object):
         pass
 
     def request_block(self):
-        #STUB
         for validator in self.validators:
             print (validator.address.address)
         return

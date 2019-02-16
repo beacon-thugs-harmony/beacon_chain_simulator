@@ -36,10 +36,10 @@ class Beacon(object):
                 else:
                     pass #will include punishment here
 
-        self.proposal_hashes = ()
+        self.proposal_hashes = {}
 
     def request_proposal_hash(self, validator):
-        self.proposal_hashes[validator.address] = (validator.get_entropy_hash())
+        self.proposal_hashes[validator.address] = validator.get_entropy_hash()
 
     def assign_validators(self,shard, validators):
         #STUB
