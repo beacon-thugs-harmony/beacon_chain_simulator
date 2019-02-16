@@ -55,3 +55,5 @@ for i in range(SIMULATION_EPOCHS):
     for validator in validators:
         beacon.request_proposal_hash(validator)
 
+for i in epoch_states:
+    print(i)
