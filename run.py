@@ -15,8 +15,6 @@ N = key.n # N is used for VDF creation
 print(key.n)
 print(key.n.bit_length())
 
-def randao_mix(beacon):
-
 def vdf_calc(entropy):
     #The VDF should be calculated as Y = X**(2**T) % N
     #For the simulation - we'll use the VDF_DELAY constant to specify how many epochs this calculation takes
