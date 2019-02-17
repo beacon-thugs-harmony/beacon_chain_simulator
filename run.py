@@ -8,8 +8,8 @@ CONFIG = {
     'SIMULATION_EPOCHS':5,
     'AMAX':3,
     'NSHARDS':3,
-    'EPOCH_SLOTS':10,
-    'VALIDATORS':1000
+    'EPOCH_SLOTS':4,
+    'VALIDATORS':10
 }
 
 # create 2048 bit RSA modulus using a secure ceremony
