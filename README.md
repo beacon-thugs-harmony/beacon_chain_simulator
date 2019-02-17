@@ -35,7 +35,7 @@ www.beacon-chain.com
 Run run.py
 
 ### Ethereum 2.0 - Beacon Thugs n Harmony vs Quantstamp, for EthDenver
-Backend - Richard, Poming, Nathan. Frontend - Derek.
+Team: Richard Ma, Poming Lee, Nathan Frenette, Derek Alia
 
 ### Note
 We found a _potential_ attack vector to the beacon chain while we were building the simulation. 
