@@ -4,11 +4,12 @@ from Crypto.PublicKey import RSA
 import random
 import shard
 
-#constants
-SIMULATION_EPOCHS = 3
-AMAX = 10
-EPOCH = 0
-NSHARDS = 4
+CONFIG = {
+    'SIMULATION_EPOCHS':3,
+    'AMAX':10,
+    'NSHARDS':4,
+    'EPOCH_SLOTS':128
+}
 
 # create 2048 bit RSA modulus using a secure ceremony
 key = RSA.generate(2048)
@@ -34,38 +35,42 @@ def vdf_calc(entropy):
 
 # set up beacon and validators
 
-beacon = fuzzer.fuzzy_beacon()
-validators = fuzzer.create_validators(1000)
+def run_sim(config):
+    beacon = fuzzer.fuzzy_beacon()
+    validators = fuzzer.create_validators(1000)
 
-#stake validators
-for validator in validators:
-    beacon.stake(validator)
+    #stake validators
+    for validator in validators:
+        beacon.stake(validator)
 
-#set up epoch list - each list contains the most up-to-date information for that epoch
+    #set up epoch list - each list contains the most up-to-date information for that epoch
 
-shards = [None]*NSHARDS
-for i in range(len(shards)):
-    shards[i] = shard.Shard()
+    shards = [None] * config["NSHARDS"]
+    for i in range(len(shards)):
+        shards[i] = shard.Shard()
 
-epoch_states = a = [None] * (AMAX + SIMULATION_EPOCHS)
-for x in range(AMAX):
-    epoch_states[x] = fuzzer.fuzzy_string()
+    epoch_states = a = [None] * (config["AMAX"] + config["SIMULATION_EPOCHS"])
+    for x in range(config["AMAX"]):
+        epoch_states[x] = fuzzer.fuzzy_string()
 
-for i in range(SIMULATION_EPOCHS * 128):
-    if(i%128==0):
-        epoch = i // 128
-        random.seed(hash(epoch_states[epoch]))
-        random.shuffle(validators)  # shuffle proposals for entropy
-        beacon.request_proposals(random)
-        epoch_states[epoch+AMAX] = (vdf_calc(beacon.revealed_entropy))
+    for i in range(config["SIMULATION_EPOCHS"] * config["EPOCH_SLOTS"]):
+        if(i%config["EPOCH_SLOTS"]==0):
+            epoch = i // config["EPOCH_SLOTS"]
+            random.seed(hash(epoch_states[epoch]))
+            random.shuffle(validators)  # shuffle proposals for entropy
+            beacon.request_proposals(random)
+            epoch_states[epoch+config["AMAX"]] = (vdf_calc(beacon.revealed_entropy))
 
-        for validator in validators:
-            beacon.request_proposal_hash(validator)
+            for validator in validators:
+                beacon.request_proposal_hash(validator)
 
-        for unique_shard in shards:
-            random.shuffle(validators)  # validator shard assignment
-            beacon.assign_validators(unique_shard,validators)
-            unique_shard.request_block() # print validator x is proposing block at slot n
+            for unique_shard in shards:
+                random.shuffle(validators)  # validator shard assignment
+                beacon.assign_validators(unique_shard,validators)
+                unique_shard.request_block() # print validator x is proposing block at slot n
+    return epoch_states
 
+
+epoch_states = run_sim(CONFIG);
 for i in epoch_states:
     print(i)
