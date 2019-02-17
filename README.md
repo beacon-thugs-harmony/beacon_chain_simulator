@@ -26,17 +26,9 @@ And: https://cdn.hackaday.io/files/10879465447136/Mauve%20Paper%20Vitalik.pdf
 
 www.beacon-chain.com
 
-## Application
-
-Use this simulator to visually conceptualize the workings of Eth 2.0
-
 ## Instructions
 
-Run simulation.py
-
-## Unit Testing
-
-Run testing.py
+Run run.py
 
 ## Insights from the Simulation
 
