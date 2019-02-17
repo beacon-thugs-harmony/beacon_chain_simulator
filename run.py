@@ -87,6 +87,7 @@ def run_sim(config):
             validator_of_a_shard_at_time_slot = random.choice(validators)  # validator shard assignment
             my_time_block_record["shard_validator"][shards.index(unique_shard)] = validators.index(validator_of_a_shard_at_time_slot)
         
+        my_time_block_record["CONFIG"] = config
         logData.append(my_time_block_record)  
 
     with open('logData.txt', 'w') as outfile:
