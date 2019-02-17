@@ -36,3 +36,7 @@ Run run.py
 
 ### Ethereum 2.0 - Beacon Thugs n Harmony vs Quantstamp, for EthDenver
 Backend - Richard, Poming, Nathan. Frontend - Derek.
+
+### Note
+We found a _potential_ attack vector to the beacon chain while we were building the simulation. 
+a malicious actor can DDoS the validator during their RANDAO slot, between the hash submission and the reveal - and cause them to lose money via the penalty. This shows the value of having a simulation
