@@ -3,7 +3,6 @@ import string
 import validator
 import validator_pool
 import beacon
-import honesty
 import address
 
 random.seed(10)
