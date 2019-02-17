@@ -8,7 +8,7 @@ CONFIG = {
     'SIMULATION_EPOCHS':5,
     'AMAX':3,
     'NSHARDS':3,
-    'EPOCH_SLOTS':10,
+    'EPOCH_SLOTS':4,
     'VALIDATORS':10
 }
 

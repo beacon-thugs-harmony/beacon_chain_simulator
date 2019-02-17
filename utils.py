@@ -4,5 +4,5 @@ def xor(string1, string2):
     bytes2 = bytearray(string2, "ascii")
     output = []
     for x in range(len(bytes1)):
-        output.append(bytes1[x]^bytes2[x])
-    return "".join(map(chr, output))
+        output.append(chr(bytes1[x]^bytes2[x]%256))
+    return "".join(output)
