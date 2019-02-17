@@ -28,8 +28,6 @@ www.beacon-chain.com
 
 ## Simulation Output
 
-![Alt text](relative/path/to/img.jpg?raw=true "Title")
-
 ![Beacon Chain Web App Image](Beacon_WebApp.png?raw=true "Beacon Chain Simulation")
 
 ## Instructions
