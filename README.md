@@ -17,6 +17,10 @@ Specifically, the simulation visually shows how the system:
 5) Provides randomness to the rest of the system
 6) This is used to choose the next block proposer both in the beacon chain and in the shard chains
 
+## Simulation Output
+
+![Beacon Chain Web App Image](Beacon_WebApp.png?raw=true "Beacon Chain Simulation")
+
 ## Spec
 
 Built using: https://ethresear.ch/t/minimal-vdf-randomness-beacon/3566
@@ -25,10 +29,6 @@ And: https://cdn.hackaday.io/files/10879465447136/Mauve%20Paper%20Vitalik.pdf
 ## Website
 
 www.beacon-chain.com
-
-## Simulation Output
-
-![Beacon Chain Web App Image](Beacon_WebApp.png?raw=true "Beacon Chain Simulation")
 
 ## Instructions
 
