@@ -26,17 +26,15 @@ And: https://cdn.hackaday.io/files/10879465447136/Mauve%20Paper%20Vitalik.pdf
 
 www.beacon-chain.com
 
+## Simulation Output
+
+![Alt text](relative/path/to/img.jpg?raw=true "Title")
+
+![Beacon Chain Web App Image](Beacon_WebApp.png?raw=true "Beacon Chain Simulation")
+
 ## Instructions
 
 Run run.py
-
-## Insights from the Simulation
-
-Calculating the VDF is basically like Proof of Work. 
-
-The difference here with traditional Proof of Work is that the calculation here is deterministic.
-
-(Also, importantly, there's no reward for doing the work - the current design relies on altruistic actors doing it out of goodwill.)
 
 ### Ethereum 2.0 - Beacon Thugs n Harmony vs Quantstamp, for EthDenver
 Backend - Richard, Poming, Nathan. Frontend - Derek.
