@@ -39,4 +39,6 @@ The difference here with traditional Proof of Work is that the calculation here 
 (Also, importantly, there's no reward for doing the work - the current design relies on altruistic actors doing it out of goodwill.)
 
 ### Ethereum 2.0 - Beacon Thugs n Harmony vs Quantstamp, for EthDenver
-
+Backend - Richard, Poming
+Server - Nathan
+Frontend - Derek
