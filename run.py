@@ -3,6 +3,7 @@ from Crypto.PublicKey import RSA
 import random
 import shard
 import json
+import utils
 
 CONFIG = {
     'SIMULATION_EPOCHS':5,
@@ -89,11 +90,18 @@ def run_sim(config):
             my_time_block_record["shard_validator"][shards.index(unique_shard)] = validators.index(validator_of_a_shard_at_time_slot)
         
         my_time_block_record["CONFIG"] = config
-        logData.append(my_time_block_record)  
+        logData.append(clean(my_time_block_record))  
 
     with open('logData.txt', 'w') as outfile:
         json.dump(logData, outfile)
     return logData
+
+def clean(record):
+    record["last_entropy_e_i_minus1"] = utils.convert_to_int(record["last_entropy_e_i_minus1"],12)
+    record["current_entropy_e_i"] = utils.convert_to_int(record["current_entropy_e_i"],12)
+    if(record["vdf_input"]!=None):
+        record["vdf_input"] = utils.convert_to_int(record["vdf_input"],12)
+    return record
 
 if __name__ == '__main__':
     run_sim(CONFIG)
