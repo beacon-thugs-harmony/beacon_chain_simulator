@@ -57,16 +57,24 @@ def run_sim(config):
     for i in range(config["SIMULATION_EPOCHS"] * config["EPOCH_SLOTS"]):
         if(i%config["EPOCH_SLOTS"]==0):
             epoch = i // config["EPOCH_SLOTS"]
-            random.seed(hash(epoch_states[epoch]))
-            random.shuffle(validators)  # shuffle proposals for entropy
-            beacon.request_proposals(random)
-            epoch_states[epoch+config["AMAX"]] = (vdf_calc(beacon.revealed_entropy))
+            time_slot = i
+            if(i == 0):            
+                for validator in validators:
+                    beacon.request_proposal_hash(validator) # submit hashes from all the validators in the beginning of an epoch, and have some validators reveal them one-by-one in the following time slots
+                random.seed(hash(epoch_states[epoch]))
+            
+            beacon.request_single_proposal()
 
-            for validator in validators:
-                beacon.request_proposal_hash(validator)
+            if(i == (config["EPOCH_SLOTS"] - 1)):            
+                epoch_states[epoch+config["AMAX"]] = (vdf_calc(beacon.revealed_entropy))
+                beacon.revealed_entropy = fuzzer.zero_string()
 
             for unique_shard in shards:
-                random.shuffle(validators)  # validator shard assignment
-                beacon.assign_validators(unique_shard,validators)
-                unique_shard.request_block() # print validator x is proposing block at slot n
+                validator_of_a_shard_at_time_slot = random.choice(validators)  # validator shard assignment
+                unique_shard.request_block(validator_of_a_shard_at_time_slot) # print validator x is proposing block at slot n
+                
     return epoch_states
+
+if __name__ == '__main__':
+    run_sim(CONFIG)
+

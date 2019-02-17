@@ -10,6 +10,8 @@ random.seed(10)
 
 def fuzzy_string():
     return "".join(random.choice(string.ascii_lowercase + string.digits) for _ in range(32));
+def zero_string():
+    return "".join("0" for _ in range(32));
 
 def fuzzy_number():
     return random.random()

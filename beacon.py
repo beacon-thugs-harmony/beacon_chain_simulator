@@ -1,6 +1,6 @@
 import validator_pool
 import fuzzer
-import utils
+import random
 
 
 class Beacon(object):
@@ -8,9 +8,9 @@ class Beacon(object):
         self.address = address
         self.validator_pool = validator_pool.ValidatorPool()
         self.stakes = []
-        self.revealed_entropy = fuzzer.fuzzy_string()
+        self.revealed_entropy = fuzzer.zero_string()
         self.proposers = []
-        self.proposal_hashes = {}
+        self.proposal_hashes = []
 
     def stake(self, validator):
         if(validator.address.balance<32):
@@ -20,24 +20,25 @@ class Beacon(object):
         validator.address.balance-=32
         return True
 
-    def request_proposals(self, random):
-        # ask random validator to propose a block
-        keys = list(self.proposal_hashes.keys())
-        if(len(keys) == 0):
+    def request_single_proposal(self):
+        if(len(self.proposal_hashes) == 0):
             return
-        random.shuffle(keys)
-        for i in range (128):
-            validator = self.validator_pool.get_validator(keys[i%len(keys)])
-            if(validator.propose()):
-                entropy = validator.get_entropy()
-                if(self.proposal_hashes[validator.address] == str(hash((entropy)))):
-                    self.revealed_entropy = utils.xor(self.revealed_entropy,entropy)
-                else:
-                    pass #will include punishment here
-        self.proposal_hashes = {}
+        # get the randomly selected validator        
+        selected_validator = random.choice(self.validator_pool.validators)
+        # ask the random validator to propose a block
+        if(selected_validator.propose()):
+            entropy = selected_validator.get_entropy()
+            if(self.proposal_hashes[0] == str(hash((entropy)))):
+                self.revealed_entropy = utils.xor(self.revealed_entropy,entropy)        
+            else:
+                pass #will include punishment here
+        else:
+            pass #will include punishment here
+              
+        del self.proposal_hashes[0]
 
     def request_proposal_hash(self, validator):
-        self.proposal_hashes[validator.address] = validator.get_entropy_hash()
+        self.proposal_hashes.append(validator.get_entropy_hash())
 
     def assign_validators(self,shard, validators):
         #STUB
