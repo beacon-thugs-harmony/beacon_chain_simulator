@@ -8,7 +8,8 @@ CONFIG = {
     'SIMULATION_EPOCHS':3,
     'AMAX':10,
     'NSHARDS':4,
-    'EPOCH_SLOTS':128
+    'EPOCH_SLOTS':128,
+    'VALIDATORS':1000
 }
 
 # create 2048 bit RSA modulus using a secure ceremony
@@ -37,7 +38,7 @@ def vdf_calc(entropy):
 
 def run_sim(config):
     beacon = fuzzer.fuzzy_beacon()
-    validators = fuzzer.create_validators(1000)
+    validators = fuzzer.create_validators(config["VALIDATORS"])
 
     #stake validators
     for validator in validators:
@@ -69,8 +70,3 @@ def run_sim(config):
                 beacon.assign_validators(unique_shard,validators)
                 unique_shard.request_block() # print validator x is proposing block at slot n
     return epoch_states
-
-
-epoch_states = run_sim(CONFIG);
-for i in epoch_states:
-    print(i)
