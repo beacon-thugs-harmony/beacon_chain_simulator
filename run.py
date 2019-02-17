@@ -51,19 +51,21 @@ epoch_states = a = [None] * (AMAX + SIMULATION_EPOCHS)
 for x in range(AMAX):
     epoch_states[x] = fuzzer.fuzzy_string()
 
-for i in range(SIMULATION_EPOCHS):
-    random.seed(hash(epoch_states[i]))
-    random.shuffle(validators)  # shuffle proposals for entropy
-    beacon.request_proposals(random)
-    epoch_states[i+AMAX] = (vdf_calc(beacon.revealed_entropy))
+for i in range(SIMULATION_EPOCHS * 128):
+    if(i%128==0):
+        epoch = i // 128
+        random.seed(hash(epoch_states[epoch]))
+        random.shuffle(validators)  # shuffle proposals for entropy
+        beacon.request_proposals(random)
+        epoch_states[epoch+AMAX] = (vdf_calc(beacon.revealed_entropy))
 
-    for validator in validators:
-        beacon.request_proposal_hash(validator)
+        for validator in validators:
+            beacon.request_proposal_hash(validator)
 
-    for unique_shard in shards:
-        random.shuffle(validators)  # validator shard assignment
-        beacon.assign_validators(unique_shard,validators)
-        unique_shard.request_block() # print validator x is proposing block at slot n
+        for unique_shard in shards:
+            random.shuffle(validators)  # validator shard assignment
+            beacon.assign_validators(unique_shard,validators)
+            unique_shard.request_block() # print validator x is proposing block at slot n
 
 for i in epoch_states:
     print(i)
