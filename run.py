@@ -3,6 +3,7 @@ import Crypto
 from Crypto.PublicKey import RSA
 import random
 import shard
+import time_block_record
 
 CONFIG = {
     'SIMULATION_EPOCHS':3,
@@ -37,6 +38,7 @@ def vdf_calc(entropy):
 # set up beacon and validators
 
 def run_sim(config):
+    logData = []
     beacon = fuzzer.fuzzy_beacon()
     validators = fuzzer.create_validators(config["VALIDATORS"])
 
@@ -55,25 +57,39 @@ def run_sim(config):
         epoch_states[x] = fuzzer.fuzzy_string()
 
     for i in range(config["SIMULATION_EPOCHS"] * config["EPOCH_SLOTS"]):
-        if(i%config["EPOCH_SLOTS"]==0):
-            epoch = i // config["EPOCH_SLOTS"]
-            time_slot = i
-            if(i == 0):            
-                for validator in validators:
-                    beacon.request_proposal_hash(validator) # submit hashes from all the validators in the beginning of an epoch, and have some validators reveal them one-by-one in the following time slots
-                random.seed(hash(epoch_states[epoch]))
-            
-            beacon.request_single_proposal()
+        my_time_block_record = time_block_record.TimeBlockRecord(config)
 
-            if(i == (config["EPOCH_SLOTS"] - 1)):            
-                epoch_states[epoch+config["AMAX"]] = (vdf_calc(beacon.revealed_entropy))
-                beacon.revealed_entropy = fuzzer.zero_string()
+        epoch = i // config["EPOCH_SLOTS"]
+        my_time_block_record.current_epoch_id = epoch
+        time_slot = i%config["EPOCH_SLOTS"]
+        my_time_block_record.current_timeslot_id = time_slot
+        if(i == 0):            
+            for validator in validators:
+                beacon.request_proposal_hash(validator) # submit hashes from all the validators in the beginning of an epoch, and have some validators reveal them one-by-one in the following time slots
+            random.seed(hash(epoch_states[epoch]))
+            my_time_block_record.current_random_seed_r_j = hash(epoch_states[epoch])
+            if((i - config["AMAX"]) >= 0):
+                my_time_block_record.epoch_when_r_j_generation_started = i - config["AMAX"]
+            else:
+                my_time_block_record.epoch_when_r_j_generation_started = None
 
-            for unique_shard in shards:
-                validator_of_a_shard_at_time_slot = random.choice(validators)  # validator shard assignment
-                unique_shard.request_block(validator_of_a_shard_at_time_slot) # print validator x is proposing block at slot n
-                
-    return epoch_states
+        my_time_block_record = beacon.request_single_proposal(my_time_block_record)
+
+        if(i == (config["EPOCH_SLOTS"] - 1)):            
+            my_time_block_record.vdf_input = beacon.revealed_entropy
+            epoch_states[epoch+config["AMAX"]] = (vdf_calc(beacon.revealed_entropy))                
+            my_time_block_record.vdf_output_r_i = epoch_states[epoch+config["AMAX"]] 
+            beacon.revealed_entropy = fuzzer.zero_string()
+        else:
+            my_time_block_record.vdf_input = None
+
+        for unique_shard in shards:
+            validator_of_a_shard_at_time_slot = random.choice(validators)  # validator shard assignment
+            my_time_block_record.shard_validator[shards.index(unique_shard)] = validators.index(validator_of_a_shard_at_time_slot)
+        
+        logData.append(my_time_block_record)
+
+    return logData
 
 if __name__ == '__main__':
     run_sim(CONFIG)

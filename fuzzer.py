@@ -22,7 +22,7 @@ def honest_available_unbiased():
     return lambda:1
 
 def fuzzy_beacon():
-    return beacon.Beacon(empty_address())
+    return beacon.Beacon(fuzzy_address())
 
 def empty_address():
     return address.Address(fuzzy_string(),0)

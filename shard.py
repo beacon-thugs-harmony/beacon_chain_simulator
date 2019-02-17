@@ -5,5 +5,9 @@ class Shard(object):
         pass
 
     def request_block(self, validator):
-        print (validator.address.address)
+        if(validator.availiable()):
+            # print (validator.address.address)
+            pass # being rewarded for producing a block
+        else:
+            pass # being punised for not showing up
         return
