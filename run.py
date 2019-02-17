@@ -5,10 +5,10 @@ import shard
 import json
 
 CONFIG = {
-    'SIMULATION_EPOCHS':100,
-    'AMAX':10,
-    'NSHARDS':4,
-    'EPOCH_SLOTS':128,
+    'SIMULATION_EPOCHS':5,
+    'AMAX':3,
+    'NSHARDS':3,
+    'EPOCH_SLOTS':10,
     'VALIDATORS':1000
 }
 
@@ -66,22 +66,23 @@ def run_sim(config):
         if(time_slot_id == 0):            
             for validator in validators:
                 beacon.request_proposal_hash(validator) # submit hashes from all the validators in the beginning of an epoch, and have some validators reveal them one-by-one in the following time slots
-            random.seed(hash(epoch_states[epoch_id]))
-            my_time_block_record["current_random_seed_r_j"] = hash(epoch_states[epoch_id])
+            random.seed(hash(epoch_states[epoch_id]))            
             if((epoch_id - config["AMAX"]) >= 0):
                 my_time_block_record["epoch_when_r_j_generation_started"] = epoch_id - config["AMAX"]
             else:
                 my_time_block_record["epoch_when_r_j_generation_started"] = None
-
+        
+        my_time_block_record["current_random_seed_r_j"] = hash(epoch_states[epoch_id]) # hash it to see it
         my_time_block_record = beacon.request_single_proposal(my_time_block_record)
 
         if(time_slot_id == (config["EPOCH_SLOTS"] - 1)):            
             my_time_block_record["vdf_input"] = beacon.revealed_entropy
             epoch_states[epoch_id+config["AMAX"]] = (vdf_calc(beacon.revealed_entropy))                
-            my_time_block_record["vdf_output_r_i"] = epoch_states[epoch_id+config["AMAX"]] 
+            my_time_block_record["vdf_output_r_i"] = hash(epoch_states[epoch_id+config["AMAX"]]) # hash it to see it
             beacon.end_of_timeslot()           
         else:
             my_time_block_record["vdf_input"] = None
+            my_time_block_record["vdf_output_r_i"] = None
 
         for unique_shard in shards:
             validator_of_a_shard_at_time_slot = random.choice(validators)  # validator shard assignment
