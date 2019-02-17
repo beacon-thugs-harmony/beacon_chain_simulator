@@ -1,5 +1,4 @@
 import fuzzer
-import Crypto
 from Crypto.PublicKey import RSA
 import random
 import shard
