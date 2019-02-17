@@ -9,7 +9,7 @@ CONFIG = {
     'AMAX':3,
     'NSHARDS':3,
     'EPOCH_SLOTS':10,
-    'VALIDATORS':1000
+    'VALIDATORS':10
 }
 
 # create 2048 bit RSA modulus using a secure ceremony
