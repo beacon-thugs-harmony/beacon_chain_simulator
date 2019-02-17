@@ -26,17 +26,9 @@ And: https://cdn.hackaday.io/files/10879465447136/Mauve%20Paper%20Vitalik.pdf
 
 www.beacon-chain.com
 
-## Application
-
-Use this simulator to visually conceptualize the workings of Eth 2.0
-
 ## Instructions
 
-Run simulation.py
-
-## Unit Testing
-
-Run testing.py
+Run run.py
 
 ## Insights from the Simulation
 
@@ -47,4 +39,4 @@ The difference here with traditional Proof of Work is that the calculation here 
 (Also, importantly, there's no reward for doing the work - the current design relies on altruistic actors doing it out of goodwill.)
 
 ### Ethereum 2.0 - Beacon Thugs n Harmony vs Quantstamp, for EthDenver
-
+Backend - Richard, Poming, Nathan. Frontend - Derek.

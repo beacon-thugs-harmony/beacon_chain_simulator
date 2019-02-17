@@ -1,12 +1,11 @@
 import fuzzer
-import Crypto
 from Crypto.PublicKey import RSA
 import random
 import shard
 import time_block_record
 
 CONFIG = {
-    'SIMULATION_EPOCHS':3,
+    'SIMULATION_EPOCHS':100,
     'AMAX':10,
     'NSHARDS':4,
     'EPOCH_SLOTS':128,
