@@ -22,7 +22,7 @@ class Beacon(object):
 
     def request_single_proposal(self, my_time_block_record):
         if(len(self.proposal_hashes) == 0):
-            return
+            return my_time_block_record
         # get the randomly selected validator        
         selected_validator = random.choice(self.validator_pool.validators)
         my_time_block_record.current_beacon_validator_id = self.validator_pool.validators.index(selected_validator)

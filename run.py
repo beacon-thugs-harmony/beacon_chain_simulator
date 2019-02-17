@@ -3,6 +3,7 @@ from Crypto.PublicKey import RSA
 import random
 import shard
 import time_block_record
+import json
 
 CONFIG = {
     'SIMULATION_EPOCHS':100,
@@ -87,7 +88,8 @@ def run_sim(config):
             my_time_block_record.shard_validator[shards.index(unique_shard)] = validators.index(validator_of_a_shard_at_time_slot)
         
         logData.append(my_time_block_record)
-
+    
+    #logData_json = json.dump(logData)
     return logData
 
 if __name__ == '__main__':
