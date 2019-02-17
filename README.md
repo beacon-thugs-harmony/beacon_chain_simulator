@@ -1,8 +1,5 @@
 # Eth 2.0 Beacon Chain Simulation
-> Implements a simulation for the sharded pos ethereum 2.0.
-
-## Spec
-Built using: https://ethresear.ch/t/minimal-vdf-randomness-beacon/3566
+Implements a simulation for the sharded pos ethereum 2.0.
 
 ## Motivation
 
@@ -21,6 +18,11 @@ Specifically, the simulation visually shows how the system:
 4) How the system tries to deter attackers who want to frontrun the random validator selection process
 5) Provides randomness to the rest of the system
 6) This is used to choose the next block proposer both in the beacon chain and in the shard chains
+
+## Spec
+
+Built using: https://ethresear.ch/t/minimal-vdf-randomness-beacon/3566
+And: https://cdn.hackaday.io/files/10879465447136/Mauve%20Paper%20Vitalik.pdf
 
 ## Website
 
@@ -46,5 +48,5 @@ The difference here with traditional Proof of Work is that the calculation here 
 
 (Also, importantly, there's no reward for doing the work - the current design relies on altruistic actors doing it out of goodwill.)
 
-### Ethereum 2.0 - Beacon Thugs n Harmony vs. Quantstamp
+### Ethereum 2.0 - Beacon Thugs n Harmony vs Quantstamp, for EthDenver
 
