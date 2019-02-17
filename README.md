@@ -3,8 +3,6 @@ Implements a simulation for the sharded pos ethereum 2.0.
 
 ## Motivation
 
-Implements a simulation for the sharded pos ethereum 2.0.
-
 The Eth 2.0 Spec is very difficult to understand and we thought making it easier to visualize is one of the most impactful things we could do to drive scalability development forward for the community.
 
 The challenging research task involved pulling together incomplete outlines and disparate sources, including ethresear.ch, presentations from Justin Drake, and the mauve whitepaper from Vitalik.
