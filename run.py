@@ -28,7 +28,7 @@ def vdf_calc(entropy):
     #The VDF should be calculated as Y = X**(2**T) % N, here we use T=1 to reduce simulation runtime
     #The AMAX constant specifies how many epochs this calculation takes on ASIC chips
 
-    bytes_entropy=bytes(entropy, "ascii")
+    bytes_entropy = bytes(entropy, "ascii")
     bytes_entropy = (bytes(extend_to_power_of_2(bytearray(bytes_entropy)))) #X**2**T
     bytes_entropy = ((int.from_bytes(bytes_entropy, 'big', signed=False) % N).to_bytes(32, byteorder='big')) #take the modulus by N
 
@@ -55,8 +55,8 @@ def run_sim(config):
         epoch_states[x] = fuzzer.fuzzy_string()
 
     for i in range(config["SIMULATION_EPOCHS"] * config["EPOCH_SLOTS"]):
+        epoch = i // config["EPOCH_SLOTS"]
         if(i%config["EPOCH_SLOTS"]==0):
-            epoch = i // config["EPOCH_SLOTS"]
             random.seed(hash(epoch_states[epoch]))
             random.shuffle(validators)  # shuffle proposals for entropy
             beacon.request_proposals(random)
