@@ -1,4 +1,5 @@
 import fuzzer
+import random
 
 class Validator:
     #Honesty, bias, availability will be 0-1, 1 being 'good'
@@ -9,8 +10,8 @@ class Validator:
         self.bias = bias;
         self.current_entropy = fuzzer.fuzzy_string();
 
-    def propose(self):
-        return self.availability() > .5
+    def availiable(self):
+        return random.random() < self.availability()
 
     def get_entropy(self):
         return self.current_entropy
