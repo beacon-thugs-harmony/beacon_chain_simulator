@@ -1,7 +1,7 @@
 import validator_pool
 import fuzzer
 import random
-
+import utils
 
 class Beacon(object):
     def __init__(self, address):

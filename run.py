@@ -5,7 +5,7 @@ import random
 import shard
 
 CONFIG = {
-    'SIMULATION_EPOCHS':3,
+    'SIMULATION_EPOCHS':100,
     'AMAX':10,
     'NSHARDS':4,
     'EPOCH_SLOTS':128,
