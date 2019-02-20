@@ -1,5 +1,5 @@
 # Eth 2.0 Beacon Chain Simulation
-Implements a simulation for the sharded pos ethereum 2.0.
+Implements a prototype and interactive simulation for the sharded pos ethereum 2.0.
 
 ## Motivation
 
